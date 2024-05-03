@@ -4,7 +4,7 @@ from django.db import transaction
 # Create your views here.
 import csv
 from concurrent.futures import ThreadPoolExecutor
-from .models import PropertySale
+from .models import TestModel
 from rest_framework.response import Response
 
 
@@ -35,7 +35,7 @@ class TestImport(APIView):
                             for i in range(min(len(columns), len(row)))
                         }
 
-                        model_instance = PropertySale(**row_dict)
+                        model_instance = TestModel(**row_dict)
 
                         chunk.append(model_instance)
                     if chunk:
@@ -60,4 +60,4 @@ def save_data(generator):
     with transaction.atomic():
 
         for chunk in generator:
-            PropertySale.objects.bulk_create(chunk)
+            TestModel.objects.bulk_create(chunk)
